@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-10">
+            <div class="card p-5 border-4 rounded-4">
+                <div class="d-flex justify-content-center">
+                    <img src="../../../assets/logo.png" alt="" class="card-img-top w-25">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center">Lista de colaboradores</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Rol</th>
+                                <th>Skills</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of query;">
+                                <td>{{item.strName}}</td>
+                                <td>{{item.strLastName}}</td>
+                                <td>{{item.strRole}}</td>
+                                <td><Button (click)="fnCapId(item._id)" class="btn btn-primary btn-sm-sm w-75">Ver</Button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

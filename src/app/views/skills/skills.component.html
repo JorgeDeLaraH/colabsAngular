@@ -1,0 +1,169 @@
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center vh-100">
+        <div class="col-md-10">
+            <div class="card p-5 border-4 rounded-4">
+                <div class="d-flex justify-content-center">
+                    <img src="../../../assets/logo.png" alt="" class="card-img-top w-25">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center">Skills de Colaborador</h3>
+                    <div class="row">
+                        <div class="col-6 col-md-6">
+                            <p><strong>Nombre: </strong> {{query.strName}}</p>
+                        </div>
+                        <div class="col-6 col-md-5 d-flex justify-content-end">
+                            <p><strong>Rol: </strong> {{query.strRole}}</p>
+                        </div>
+                        <p><strong>Apellido: </strong> {{query.strLastName}}</p>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Nivel</th>
+                            <th>Años de experiencia</th>
+                            <th></th>
+                            <th><button data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-primary">Agregar</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <!--Traemos skills y los renderizamos-->
+                        <tr *ngFor="let item of skills">
+                            <td>{{item.strSkillName}}</td>
+                            <td>{{item.strLevel}}</td>
+                            <td>{{item.numYearsExp}} años</td>
+                            <!--Los botones en esta sección son para llevarnos la información de las filas en skills-->
+                            <td><button data-bs-toggle="modal" data-bs-target="#modalModificar"class="btn btn-primary btn-sm-sm"(click)="fnDibujado(item.strSkillName,item.strLevel,item.numYearsExp)">Modificar</button></td>
+                            <td><button data-bs-toggle="modal" data-bs-target="#modalEliminar" class="btn btn-primary btn-sm-sm" (click)="fnDibujado(item.strSkillName,item.strLevel,item.numYearsExp)">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Primer modal para Agregar-->
+<div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Skill</label>
+                <select class="form-select" id="inputGroupSelect01" (change)="fnGetSkill($event)">
+                  <option selected>Elige una opción</option>
+                  <option value=".Net">.Net</option>
+                  <option value="React Native">React Native</option>
+                  <option value="PHP">PHP</option>
+                  <option value="Angular">Angular</option>
+                  <option value="Ionic">Ionic</option>
+                  <option value="Python">Python</option>
+                  <option value="SQL">SQL</option>
+                  <option value="MongoDB">MongoDB</option>
+                  <option value="Flutter">Flutter</option>
+                  <option value="Swift">Swift</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Nivel</label>
+                <select class="form-select" id="inputGroupSelect02" (change)="fnGetLevel($event)">
+                  <option selected>Elige una opción</option>
+                  <option value="Basico">Básico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+              </div>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">Numero de años:</span>
+                <input type="number" class="form-control" placeholder="Anos" aria-label="Username" aria-describedby="addon-wrapping" (keyup)="fnGetTime($event)">
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="fnPost()">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--Modal para modificar-->
+<div class="modal fade" id="modalModificar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Skill</label>
+                <select class="form-select" (change)="fnGetSkill($event)" id="inputGroupSelect01" [value]="skillMod">
+                  <option selected>Choose...</option>
+                  <option value=".Net">.Net</option>
+                  <option value="React Native">React Native</option>
+                  <option value="PHP">PHP</option>
+                  <option value="Angular">Angular</option>
+                  <option value="Ionic">Ionic</option>
+                  <option value="Python">Python</option>
+                  <option value="SQL">SQL</option>
+                  <option value="MongoDB">MongoDB</option>
+                  <option value="Flutter">Flutter</option>
+                  <option value="Swift">Swift</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Nivel</label>
+                <select class="form-select" (change)="fnGetLevel($event)" id="inputGroupSelect01" [value]="levelMod">
+                  <option selected>Choose...</option>
+                  <option value="Basico">Basico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+              </div>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">Numero de años:</span>
+                <input type="number" (keyup)="fnGetTime($event)" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" [value]="yearMod">
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="fnPut()">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Modal de borrado-->
+  <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Seguro que quieres borrar la siguiente información:</p>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Skill</label>
+                <input type="text" class="form-control" disabled [placeholder]="skillMod">
+              </div>
+              <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">level</label>
+                <input type="text" class="form-control" disabled [placeholder]="levelMod">
+              </div>
+              <div class="input-group flex-nowrap">
+                <label class="input-group-text" for="inputGroupSelect01">level</label>
+                <input type="text" class="form-control" disabled [placeholder]="yearMod">
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="fnDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
